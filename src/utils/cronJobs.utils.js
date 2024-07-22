@@ -4,6 +4,7 @@ const logger = require('./logger.utils');
 
 // Schedule a job to run every 1 hour
 cron.schedule('* * * * *', async () => {
+  logger.info('Starting cron job to deactivate expired links'); // Log when the job starts
   try {
     const now = new Date();
     // Update links where expirationDate is less than or equal to the current time and isActive is true

@@ -16,6 +16,7 @@ exports.generateLink = async (req, res) => {
   const originalUrl = `http://localhost:3000/link/${shortUrl}`;
 
   // Set expiration to 1 hour from now
+  // const expirationDuration = 1 * 60 * 1000;
   const expirationDuration = 1 * 60 * 60 * 1000; // 1 hours in milliseconds
   const expirationDate = new Date(Date.now() + expirationDuration);
 
