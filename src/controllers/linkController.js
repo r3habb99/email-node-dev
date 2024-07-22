@@ -21,6 +21,7 @@ exports.generateLink = async (req, res) => {
     shortUrl,
     isActive: true,
     uniqueVisitorIds: [],
+    email: req.query.email || null,
   });
 
   try {
@@ -37,8 +38,12 @@ exports.processLink = async (req, res) => {
   const { shortUrl } = req.params;
 
   try {
+    logger.info(`Processing link with shortUrl: ${shortUrl}`);
     let link = await getLink(shortUrl);
-    if (!link) return res.status(404).send('Link not found or is inactive.');
+    if (!link) {
+      logger.warn(`Link not found or is inactive: ${shortUrl}`);
+      return res.status(404).send('Link not found or is inactive.');
+    }
 
     const deviceData = await collectDeviceData(req, link._id);
     await saveDeviceData(deviceData, link);
@@ -53,8 +58,16 @@ exports.processLink = async (req, res) => {
 };
 
 async function getLink(shortUrl) {
-  let link = await Link.findOne({ shortUrl });
-  return link && link.isActive ? link : null;
+  try {
+    let link = await Link.findOne({ shortUrl });
+    logger.info(
+      `Fetched link for shortUrl: ${shortUrl}, found: ${link ? 'yes' : 'no'}`
+    );
+    return link && link.isActive ? link : null;
+  } catch (error) {
+    logger.error(`Error fetching link for shortUrl: ${shortUrl}`, error);
+    return null;
+  }
 }
 
 async function collectDeviceData(req, linkId) {
@@ -85,6 +98,7 @@ async function collectDeviceData(req, linkId) {
     userAgent: req.headers['user-agent'],
     linkId,
     uniqueVisitorId,
+    email: req.query.email, // Associate the email with the device data
   });
 }
 

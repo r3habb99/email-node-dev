@@ -29,7 +29,7 @@ const DeviceDataSchema = new mongoose.Schema({
   userAgent: mongoose.Schema.Types.Mixed, // Full user agent object
   linkId: { type: mongoose.Schema.Types.ObjectId, ref: 'Link' }, // Reference to the Link model
   uniqueVisitorId: String, // Unique visitor ID
-
+  email: String, // Associated email address
 });
 
 module.exports = mongoose.model('DeviceData', DeviceDataSchema);
