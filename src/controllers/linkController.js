@@ -14,14 +14,13 @@ const logger = require('../utils/logger.utils');
 exports.generateLink = async (req, res) => {
   const shortUrl = shortid.generate();
   const originalUrl = `http://localhost:3000/link/${shortUrl}`;
-  //const originalUrl = `https://link-refer.onrender.com/link/${shortUrl}`;
 
   const newLink = new Link({
     originalUrl,
     shortUrl,
     isActive: true,
     uniqueVisitorIds: [],
-    email: req.query.email || null,
+    emails: [], // Initialize as an empty array
   });
 
   try {
@@ -36,6 +35,7 @@ exports.generateLink = async (req, res) => {
 
 exports.processLink = async (req, res) => {
   const { shortUrl } = req.params;
+  const { email } = req.query;
 
   try {
     logger.info(`Processing link with shortUrl: ${shortUrl}`);
@@ -45,7 +45,12 @@ exports.processLink = async (req, res) => {
       return res.status(404).send('Link not found or is inactive.');
     }
 
-    const deviceData = await collectDeviceData(req, link._id);
+    if (email) {
+      link.emails.push(email);
+      await link.save();
+    }
+
+    const deviceData = await collectDeviceData(req, link._id, email);
     await saveDeviceData(deviceData, link);
 
     const fileName = await saveDeviceDataToFile(deviceData);
@@ -70,7 +75,7 @@ async function getLink(shortUrl) {
   }
 }
 
-async function collectDeviceData(req, linkId) {
+async function collectDeviceData(req, linkId, email) {
   const ua = useragent.parse(req.headers['user-agent']);
   const uniqueVisitorId = shortid.generate();
   let ip = getIP(req);
@@ -98,7 +103,7 @@ async function collectDeviceData(req, linkId) {
     userAgent: req.headers['user-agent'],
     linkId,
     uniqueVisitorId,
-    email: req.query.email, // Associate the email with the device data
+    email, // Associate the email with the device data
   });
 }
 
@@ -120,7 +125,11 @@ async function fetchLocationData(ip) {
 async function saveDeviceData(deviceData, link) {
   await deviceData.save();
   link.uniqueVisitorIds.push(deviceData.uniqueVisitorId);
-  link.isActive = false;
+
+  if (!link.emails.includes(deviceData.email)) {
+    link.emails.push(deviceData.email);
+  }
+
   await link.save();
 }
 

@@ -14,13 +14,14 @@ const sendEmail = async (req, res) => {
       path: file.path,
     }));
 
-    // Use the provided button link
-    const fullLink = buttonLink;
-
     // Send emails to all recipients
     await Promise.all(
-      recipients.split(',').map((email) =>
-        sendMail(
+      recipients.split(',').map((email) => {
+        const fullLink = `${buttonLink}?email=${encodeURIComponent(
+          email.trim()
+        )}`;
+
+        return sendMail(
           email.trim(),
           subject,
           {
@@ -31,8 +32,8 @@ const sendEmail = async (req, res) => {
             year: new Date().getFullYear(),
           },
           attachmentList
-        )
-      )
+        );
+      })
     );
 
     return logAndRenderSuccess(res, 'Emails sent successfully!');
@@ -44,5 +45,4 @@ const sendEmail = async (req, res) => {
     );
   }
 };
-
 module.exports = { sendEmail };
