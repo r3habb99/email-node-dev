@@ -1,0 +1,4 @@
+node_modules
+dev/devicedatas/
+dev/uploads/
+.env
