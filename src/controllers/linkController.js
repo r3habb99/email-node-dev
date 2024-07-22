@@ -34,7 +34,6 @@ exports.generateLink = async (req, res) => {
 };
 
 exports.processLink = async (req, res) => {
-  console.log(req.params);
   const { shortUrl } = req.params;
 
   try {
@@ -62,7 +61,6 @@ async function collectDeviceData(req, linkId) {
   const ua = useragent.parse(req.headers['user-agent']);
   const uniqueVisitorId = shortid.generate();
   let ip = getIP(req);
-  let locationData = await fetchLocationData(ip);
 
   return new DeviceData({
     ip,
@@ -87,13 +85,6 @@ async function collectDeviceData(req, linkId) {
     userAgent: req.headers['user-agent'],
     linkId,
     uniqueVisitorId,
-    location: {
-      country: locationData.country || 'Unknown',
-      region: locationData.regionName || 'Unknown',
-      city: locationData.city || 'Unknown',
-      latitude: locationData.lat || 0,
-      longitude: locationData.lon || 0,
-    },
   });
 }
 
