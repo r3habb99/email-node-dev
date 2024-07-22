@@ -13,8 +13,8 @@ const logger = require('../utils/logger.utils');
 
 exports.generateLink = async (req, res) => {
   const shortUrl = shortid.generate();
-  //const originalUrl = `http://localhost:3000/link/${shortUrl}`;
-  const originalUrl = `https://link-refer.onrender.com/link/${shortUrl}`;
+  const originalUrl = `http://localhost:3000/link/${shortUrl}`;
+  //const originalUrl = `https://link-refer.onrender.com/link/${shortUrl}`;
 
   const newLink = new Link({
     originalUrl,
@@ -34,6 +34,7 @@ exports.generateLink = async (req, res) => {
 };
 
 exports.processLink = async (req, res) => {
+  console.log(req.params);
   const { shortUrl } = req.params;
 
   try {
@@ -121,7 +122,7 @@ async function saveDeviceData(deviceData, link) {
 async function saveDeviceDataToFile(deviceData) {
   const timestamp = getFormattedTimestamp();
   const fileName = `deviceData_${timestamp}.json`;
-  const filePath = path.join(__dirname, '..', 'data', fileName);
+  const filePath = path.join(__dirname, '../../data', 'browser-data', fileName);
 
   return new Promise((resolve, reject) => {
     fs.writeFile(

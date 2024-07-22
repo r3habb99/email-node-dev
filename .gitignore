@@ -1,4 +1,5 @@
 node_modules
-dev/devicedatas/
-dev/uploads/
+browser-data/
+uploads/
 .env
+combined.log

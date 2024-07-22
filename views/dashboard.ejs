@@ -1,0 +1,27 @@
+<!-- views/dashboard.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <%- include('partials/navbar'); %>
+        <div class="container">
+            <h1>Welcome to the Dashboard</h1>
+            <p class="description">Navigate through our application using the links below.</p>
+            <div class="buttons">
+                <a href="/email" class="button"><i class="fas fa-envelope"></i> Go to Email Form</a>
+                <a href="/link/generate" class="button"><i class="fas fa-link"></i> Generate Link</a>
+            </div>
+        </div>
+</body>
+
+</html>
