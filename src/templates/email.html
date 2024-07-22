@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{subject}}</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="email-container">
+        <div class="content">
+            <p>{{{message}}}</p> <!-- Use triple curly braces to render HTML content -->
+            {{#if buttonLink}}
+            <p>
+                <a href="{{buttonLink}}" class="button">{{buttonText}}</a>
+            </p>
+            {{/if}}
+        </div>
+        <div class="footer">
+            <p>© {{year}}</p>
+        </div>
+    </div>
+</body>
+
+</html>
