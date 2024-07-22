@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const indexRoutes = require('./src/routes/index');
 const logger = require('./src/utils/logger.utils');
 require('dotenv').config();
+require('./src/utils/cronJobs.utils');
 
 const app = express();
 const PORT = process.env.PORT || 3000;

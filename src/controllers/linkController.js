@@ -2,7 +2,6 @@ const DeviceData = require('../models/DeviceData');
 const Link = require('../models/Link');
 const useragent = require('useragent');
 const shortid = require('shortid');
-const axios = require('axios');
 const path = require('path');
 const fs = require('fs');
 const {
@@ -11,19 +10,27 @@ const {
 } = require('../utils/index');
 const logger = require('../utils/logger.utils');
 
+// Generates a new link with a unique short URL and sets its expiration date
 exports.generateLink = async (req, res) => {
   const shortUrl = shortid.generate();
   const originalUrl = `http://localhost:3000/link/${shortUrl}`;
 
+  // Set expiration to 1 hour from now
+  const expirationDuration = 1 * 60 * 60 * 1000; // 1 hours in milliseconds
+  const expirationDate = new Date(Date.now() + expirationDuration);
+
+  // Create a new link document with initial values
   const newLink = new Link({
     originalUrl,
     shortUrl,
     isActive: true,
     uniqueVisitorIds: [],
     emails: [], // Initialize as an empty array
+    expirationDate,
   });
 
   try {
+    // Save the new link to the database
     await newLink.save();
     logger.info(`Generated link: ${originalUrl}`);
     res.send(`${originalUrl}`);
@@ -32,27 +39,27 @@ exports.generateLink = async (req, res) => {
     res.status(500).send('Error generating link.');
   }
 };
-
+// Processes a click on the link, collecting device data and updating the link
 exports.processLink = async (req, res) => {
   const { shortUrl } = req.params;
   const { email } = req.query;
 
   try {
-    logger.info(`Processing link with shortUrl: ${shortUrl}`);
+    // Retrieve the link based on the short URL
     let link = await getLink(shortUrl);
     if (!link) {
       logger.warn(`Link not found or is inactive: ${shortUrl}`);
       return res.status(404).send('Link not found or is inactive.');
     }
-
+    // Add email to the link if provided
     if (email) {
       link.emails.push(email);
       await link.save();
     }
-
+    // Collect device data and save it
     const deviceData = await collectDeviceData(req, link._id, email);
     await saveDeviceData(deviceData, link);
-
+    // Save device data to a file and send close page script
     const fileName = await saveDeviceDataToFile(deviceData);
     sendClosePageScript(res);
     logger.info(`Processed link: ${shortUrl}, data saved to: ${fileName}`);
@@ -61,7 +68,7 @@ exports.processLink = async (req, res) => {
     res.status(500).send('Error processing link.');
   }
 };
-
+// Fetches a link from the database using the short URL
 async function getLink(shortUrl) {
   try {
     let link = await Link.findOne({ shortUrl });
@@ -74,7 +81,7 @@ async function getLink(shortUrl) {
     return null;
   }
 }
-
+// Collects device data from the request and includes email and link ID
 async function collectDeviceData(req, linkId, email) {
   const ua = useragent.parse(req.headers['user-agent']);
   const uniqueVisitorId = shortid.generate();
@@ -106,33 +113,24 @@ async function collectDeviceData(req, linkId, email) {
     email, // Associate the email with the device data
   });
 }
-
+// Retrieves the IP address from the request headers or connection
 function getIP(req) {
   let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   return ip === '::1' || ip === '127.0.0.1' ? '8.8.8.8' : ip;
 }
 
-async function fetchLocationData(ip) {
-  try {
-    const response = await axios.get(`http://ip-api.com/json/${ip}`);
-    return response.data;
-  } catch (error) {
-    logger.error('Error fetching location data:', error);
-    return {};
-  }
-}
-
+// Saves the device data to the database and updates the link
 async function saveDeviceData(deviceData, link) {
   await deviceData.save();
   link.uniqueVisitorIds.push(deviceData.uniqueVisitorId);
-
+  // Ensure email is added only once to the link
   if (!link.emails.includes(deviceData.email)) {
     link.emails.push(deviceData.email);
   }
 
   await link.save();
 }
-
+// Saves the device data to a JSON file
 async function saveDeviceDataToFile(deviceData) {
   const timestamp = getFormattedTimestamp();
   const fileName = `deviceData_${timestamp}.json`;

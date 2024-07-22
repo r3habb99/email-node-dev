@@ -9,7 +9,6 @@
   "author": "Rishabh Prajapati",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.7.2",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
@@ -19,6 +18,7 @@
     "joi": "^17.13.3",
     "mongoose": "^8.5.1",
     "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.3",
     "nodemailer": "^6.9.14",
     "shortid": "^2.2.16",
     "user-agent": "^1.0.4",

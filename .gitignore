@@ -2,4 +2,6 @@ node_modules
 browser-data/
 uploads/
 .env
-combined.log
+
+# logger ignore files
+logs/

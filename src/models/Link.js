@@ -7,6 +7,7 @@ const LinkSchema = new mongoose.Schema({
   isActive: { type: Boolean, default: true }, // To track if the link is active
   uniqueVisitorIds: [{ type: String }], // To store unique visitor IDs
   emails: { type: [String], default: [] }, // Updated to store multiple emails
+  expirationDate: { type: Date, required: true },
 });
 
 module.exports = mongoose.model('Link', LinkSchema);
