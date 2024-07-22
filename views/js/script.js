@@ -27,3 +27,23 @@ function removeMessage(element) {
   const messageDiv = element.parentElement;
   messageDiv.style.display = 'none';
 }
+
+// Add event listener to the Generate Link button
+document.addEventListener('DOMContentLoaded', () => {
+  const generateLinkButton = document.getElementById('generateLinkButton');
+  const buttonLinkInput = document.getElementById('buttonLink');
+
+  if (generateLinkButton) {
+    generateLinkButton.addEventListener('click', () => {
+      fetch('/link/generate')
+        .then((response) => response.text())
+        .then((link) => {
+          // Remove any existing link text in the input field
+          buttonLinkInput.value = link;
+        })
+        .catch((error) => {
+          console.error('Error generating link:', error);
+        });
+    });
+  }
+});

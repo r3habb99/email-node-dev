@@ -26,7 +26,7 @@ exports.generateLink = async (req, res) => {
   try {
     await newLink.save();
     logger.info(`Generated link: ${originalUrl}`);
-    res.send(`Share this link: <a href="${originalUrl}">${originalUrl}</a>`);
+    res.send(`${originalUrl}`);
   } catch (error) {
     logger.error('Error generating link:', error);
     res.status(500).send('Error generating link.');

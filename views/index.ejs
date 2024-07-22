@@ -7,58 +7,62 @@
     <link rel="stylesheet" type="text/css" href="./css/emailForm.css">
     <link rel="stylesheet" type="text/css" href="./css/navbar.css">
 </head>
+
 <body>
     <div class="container">
         <%- include('partials/navbar'); %>
-        <h1>Send Broadcast Email</h1>
+            <h1>Send Broadcast Email</h1>
 
-        <% if (successMessage) { %>
-            <div class="success">
-                <%= successMessage %>
-                    <button class="close-btn close" onclick="removeMessage(this)">×</button>
-            </div>
-            <% } %>
+            <% if (successMessage) { %>
+                <div class="success">
+                    <%= successMessage %>
+                        <button class="close-btn close" onclick="removeMessage(this)">×</button>
+                </div>
+                <% } %>
 
-                <% if (errorMessage) { %>
-                    <div class="error">
-                        <%= errorMessage %>
-                            <button class="close-btn close" onclick="removeMessage(this)">×</button>
-                    </div>
-                    <% } %>
+                    <% if (errorMessage) { %>
+                        <div class="error">
+                            <%= errorMessage %>
+                                <button class="close-btn close" onclick="removeMessage(this)">×</button>
+                        </div>
+                        <% } %>
 
-                        <form action="/email/send-email" method="post" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="recipients">Recipients (comma separated):</label>
-                                <input type="text" id="recipients" name="recipients" required>
-                            </div>
+                            <form action="/email/send-email" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="recipients">Recipients (comma separated):</label>
+                                    <input type="text" id="recipients" name="recipients" required>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="subject">Subject:</label>
-                                <input type="text" id="subject" name="subject" required>
-                            </div>
+                                <div class="form-group">
+                                    <label for="subject">Subject:</label>
+                                    <input type="text" id="subject" name="subject" required>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="message">Message:</label>
-                                <textarea id="message" name="message" required></textarea>
-                            </div>
+                                <div class="form-group">
+                                    <label for="message">Message:</label>
+                                    <textarea id="message" name="message" required></textarea>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="buttonLink">Button Link:</label>
-                                <input type="url" id="buttonLink" name="buttonLink">
-                            </div>
+                                <div class="form-group">
+                                    <label for="buttonLink">Button Link:</label>
+                                    <div class="button-link-container">
+                                        <input type="url" id="buttonLink" name="buttonLink">
+                                        <button type="button" id="generateLinkButton">Generate Link</button>
+                                        </div>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="buttonText">Button Text:</label>
-                                <input type="text" id="buttonText" name="buttonText">
-                            </div>
+                                <div class="form-group">
+                                    <label for="buttonText">Button Text:</label>
+                                    <input type="text" id="buttonText" name="buttonText">
+                                </div>
 
-                            <div class="form-group">
-                                <label for="attachments">Attachments:</label>
-                                <input type="file" id="attachments" name="attachments" multiple>
-                            </div>
+                                <div class="form-group">
+                                    <label for="attachments">Attachments:</label>
+                                    <input type="file" id="attachments" name="attachments" multiple>
+                                </div>
 
-                            <button type="submit">Send Email</button>
-                        </form>
+                                <button type="submit">Send Email</button>
+                                </form>
     </div>
 
     <script src="./js/script.js"></script>
