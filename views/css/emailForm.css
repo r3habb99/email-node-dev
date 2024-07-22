@@ -164,6 +164,7 @@ input[type="file"] {
 @media (max-width: 768px) {
     .container {
         max-width: 90%;
+        height: fit-content;
     }
 
     h1 {
@@ -180,6 +181,8 @@ input[type="file"] {
 @media (max-width: 375px) {
     .container {
         padding: 20px;
+        width: 100%;
+            height: fit-content;
     }
 
     button {
