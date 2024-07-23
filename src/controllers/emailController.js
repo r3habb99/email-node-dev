@@ -1,3 +1,4 @@
+const Email = require('../models/Email');
 const {
   logAndRenderSuccess,
   logAndRenderError,
@@ -22,23 +23,31 @@ const sendEmail = async (req, res) => {
 
     // Send emails to all recipients
     await Promise.all(
-      recipients.split(',').map((email) => {
-        // Create a full link by appending the email as a query parameter
+      recipients.split(',').map(async (email) => {
         const fullLink = `${buttonLink}?email=${encodeURIComponent(
           email.trim()
         )}`;
 
-        return sendMail(
-          email.trim(), // Recipient email address
-          subject, // Email subject
+        // Send the email
+        await sendMail(
+          email.trim(),
+          subject,
           {
             subject,
-            message: message.replace(/\r\n|\r|\n/g, '<br>'), // Convert newlines to HTML line breaks
-            buttonLink: fullLink, // Include the personalized link
-            buttonText, // Text for the button in the email
+            message: message.replace(/\r\n|\r|\n/g, '<br>'),
+            buttonLink: fullLink,
+            buttonText,
           },
-          attachmentList // List of attachments
+          attachmentList
         );
+
+        // Save email details to the database
+        await Email.create({
+          to: email.trim(),
+          subject,
+          message,
+          attachments: attachmentList,
+        });
       })
     );
     // Log success and render success message
@@ -51,4 +60,47 @@ const sendEmail = async (req, res) => {
     );
   }
 };
-module.exports = { sendEmail };
+
+/**
+ * Controller function to handle getting email history with pagination.
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
+const getEmailHistory = async (req, res) => {
+  try {
+    const perPage = 10;
+    const page = parseInt(req.query.page, 10) || 1;
+
+    const totalEmails = await Email.countDocuments();
+    const emails = await Email.find()
+      .sort({ sentAt: -1 })
+      .skip((page - 1) * perPage)
+      .limit(perPage);
+
+    const totalPages = Math.ceil(totalEmails / perPage);
+
+    // Always respond with JSON for consistency
+    res.json({
+      emails: emails.map((email) => ({
+        to: email.to,
+        subject: email.subject,
+        sentAt: email.sentAt,
+      })),
+      currentPage: page,
+      totalPages: totalPages,
+      title: 'Dashboard', // Ensure title is passed
+    });
+  } catch (error) {
+    console.error('Error fetching email history:', error);
+    res.status(500).json({ error: 'Error fetching email history.' });
+  }
+};
+
+module.exports = { sendEmail, getEmailHistory };
+// res.render('dashboard', {
+//   emails: emails || [], // Ensure emails is an array
+//   currentPage: page,
+//   totalPages,
+//   totalEmails,
+//   title: 'Dashboard', // Ensure title is passed
+// });

@@ -11,7 +11,6 @@ cron.schedule('* * * * *', async () => {
       { expirationDate: { $lte: now }, isActive: true },
       { $set: { isActive: false } }
     );
-    logger.info('Started cron job to deactivate expired links'); // Log when the job starts
     // Log the number of updated documents
     if (expiredLinks.nModified > 0) {
       logger.info(`Deactivated ${expiredLinks.nModified} expired links`);

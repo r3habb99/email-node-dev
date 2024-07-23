@@ -1,4 +1,3 @@
-<!-- views/dashboard.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,19 +8,32 @@
         <%= title %>
     </title>
     <link rel="stylesheet" type="text/css" href="/css/dashboard.css">
-    <link rel="stylesheet" type="text/css" href="./css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
     <%- include('partials/navbar'); %>
-        <div class="container">
-            <h1>Welcome to the Dashboard</h1>
-            <p class="description">Navigate through our application using the links below.</p>
-            <div class="buttons">
-                <a href="/email" class="button"><i class="fas fa-envelope"></i> Go to Email Form</a>
+        <div class="dashboard-container">
+            <!-- Main Dashboard Content -->
+            <div class="container">
+                <h1>Welcome to the Dashboard</h1>
+                <p class="description">Navigate through our application using the links below.</p>
+                <div class="buttons">
+                    <a href="/email" class="button"><i class="fas fa-envelope"></i> Go to Email Form</a>
+                    <button id="view-history-btn" class="button"><i class="fas fa-history"></i> View Email
+                        History</button>
+                </div>
+                </div>
+            <!-- Email History Section -->
+            <div id="email-history-section" class="email-history" style="display: none;">
+                <h2>Email History</h2>
+                <div id="email-history-content">
+                    <!-- Content will be loaded here via JavaScript -->
+                </div>
             </div>
-        </div>
+            </div>
+            <script src="./js/dashboard.js"></script>
 </body>
 
 </html>

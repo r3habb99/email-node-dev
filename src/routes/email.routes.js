@@ -17,5 +17,7 @@ router.post(
   validateEmailData,
   emailController.sendEmail
 );
+// Route to get email history
+router.get('/email-history', emailController.getEmailHistory);
 
 module.exports = router;
