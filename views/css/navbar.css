@@ -1,6 +1,16 @@
 /* public/css/navbar.css */
+:root {
+    --primary-color: #f59439;
+    --secondary-color: #28a745;
+    --text-color: #333333;
+    --background-color: #f4f4f4;
+    --container-background: #ffffff;
+    --border-color: #dddddd;
+    --menu-header: #007bff;
+}
 .header {
-    background-color: #007bff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--menu-header);
     padding: 10px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -15,7 +25,7 @@
 }
 
 .navbar-brand {
-    color: #fff;
+    color: var(--container-background);
     font-size: 1.5em;
     font-weight: bold;
 }
