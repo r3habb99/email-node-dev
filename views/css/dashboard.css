@@ -1,4 +1,12 @@
 /* views/css/dashboard.css */
+:root {
+    --primary-color: #f59439;
+    --secondary-color: #28a745;
+    --text-color: #333333;
+    --background-color: #f4f4f4;
+    --container-background: #ffffff;
+    --border-color: #dddddd;
+}
 body {
     background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
     margin: 0;
@@ -25,7 +33,7 @@ body {
 }
 
 .navbar-brand {
-    color: #fff;
+    color: var(--text-color);
     font-size: 1.5em;
     font-weight: bold;
 }
@@ -43,7 +51,7 @@ body {
 }
 
 .navbar-menu a {
-    color: #fff;
+    color: var(--background-color);
     text-decoration: none;
     padding: 10px 15px;
     transition: background-color 0.3s;
@@ -68,6 +76,7 @@ body {
 h1 {
     font-size: 2.5em;
     margin-bottom: 20px;
+    color: var(--primary-color);
 }
 
 .description {
@@ -85,7 +94,7 @@ h1 {
 .button {
     display: inline-block;
     padding: 15px 25px;
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: #fff;
     text-decoration: none;
     border-radius: 8px;
@@ -100,7 +109,7 @@ h1 {
 }
 
 .button:hover {
-    background-color: #0056b3;
+    background-color: #c56409;
     transform: translateY(-3px);
 }
 

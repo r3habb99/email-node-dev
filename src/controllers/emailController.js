@@ -6,7 +6,6 @@ const { sendMail } = require('../utils/index');
 
 /**
  * Controller function to handle sending emails.
- *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
  */
