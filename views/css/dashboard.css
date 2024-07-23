@@ -5,23 +5,27 @@
     --background-color: #f4f4f4;
     --container-background: #ffffff;
     --border-color: #dddddd;
+    --close-button-color: #dc3545;
+        /* Red color for close button */
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
-            margin: 0;
-            padding: 0;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: #333;
-        }
-                                                                                                                                .dashboard-container {
-                                                                                                                                    width: 90%;
-                                                                                                                                    max-width: 1200px;
-                                                                                                                                    margin: 20px auto;
-                                                                                                                                }
+    background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+        margin: 0;
+        padding: 0;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #333;
+    }
+
+.dashboard-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
 .header {
     background-color: #007bff;
     padding: 10px 0;
@@ -177,6 +181,38 @@ table tbody tr:nth-child(even) {
     pointer-events: none;
 }
 
+.close-button {
+    background-color: var(--close-button-color);
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-button i {
+    margin-right: 8px;
+}
+
+.close-button:hover {
+    background-color: #c82333;
+    /* Darker red for hover effect */
+    transform: translateY(-2px);
+    /* Subtle lift effect on hover */
+}
+
+.close-button:focus {
+    outline: none;
+    /* Remove default focus outline */
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.5);
+    /* Custom focus ring */
+}
 @media (max-width: 768px) {
 
     .container,
@@ -184,12 +220,13 @@ table tbody tr:nth-child(even) {
         padding: 20px;
     }
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                .buttons {
+                .buttons {
         flex-direction: column;
         gap: 10px;
     }
-.pagination {
-    flex-direction: column;
-    gap: 5px;
-}
+
+                .pagination {
+                    flex-direction: column;
+                    gap: 5px;
+                }
 }
