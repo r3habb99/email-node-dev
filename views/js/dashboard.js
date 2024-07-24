@@ -70,7 +70,6 @@ const fetchEmailHistory = (page = 1) => {
       );
 
       if (data && Array.isArray(data.emails)) {
-        emailHistorySection.style.display = 'block';
         const tableContent = buildTableContent(data.emails);
         const paginationContent = buildPagination(
           data.currentPage,
@@ -90,8 +89,23 @@ const fetchEmailHistory = (page = 1) => {
 };
 
 // Event listener for the View History button
-document.getElementById('view-history-btn').addEventListener('click', () => {
-  fetchEmailHistory();
+const viewHistoryBtn = document.getElementById('view-history-btn');
+const emailHistorySection = document.getElementById('email-history-section');
+
+viewHistoryBtn.addEventListener('click', () => {
+  if (
+    emailHistorySection.style.display === 'none' ||
+    emailHistorySection.style.display === ''
+  ) {
+    emailHistorySection.style.display = 'block';
+    viewHistoryBtn.innerHTML =
+      '<i class="fas fa-times"></i> Close Email History';
+    fetchEmailHistory();
+  } else {
+    emailHistorySection.style.display = 'none';
+    viewHistoryBtn.innerHTML =
+      '<i class="fas fa-history"></i> View Email History';
+  }
 });
 
 // Event listener for pagination links
@@ -101,9 +115,4 @@ document.addEventListener('click', (event) => {
     const page = event.target.getAttribute('data-page');
     fetchEmailHistory(page);
   }
-});
-
-// Event listener for the Close button
-document.getElementById('close-history-btn').addEventListener('click', () => {
-  window.location.href = '/'; // Redirect to the root URL
 });
