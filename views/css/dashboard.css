@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #f59439;
+    --primary-color: #007bff;
     --secondary-color: #28a745;
     --text-color: #333333;
     --background-color: #f4f4f4;
@@ -72,10 +72,15 @@ body {
 }
 
 .container {
-    background-color: var(--container-background);
+    background-color: rgba(255, 255, 255, 0.15);
+        /* Adjust opacity as needed */
+        backdrop-filter: blur(10px);
+        /* Adjust blur radius as needed */
     padding: 40px;
+    /* Adjust padding as needed */
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        /* Adjust shadow color and opacity */
     text-align: center;
     margin-bottom: 20px;
 }
@@ -83,7 +88,7 @@ body {
 h1 {
     font-size: 2.5em;
     margin-bottom: 20px;
-    color: var(--primary-color);
+    color: var(--text-color);
 }
 
 .description {
@@ -122,17 +127,22 @@ h1 {
 }
 
 .email-history {
-    background-color: var(--container-background);
+    background-color: rgba(255, 255, 255, 0.15);
+        /* Adjust opacity as needed */
+        backdrop-filter: blur(10px);
+        /* Adjust blur radius as needed */
     padding: 20px;
+    /* Adjust padding as needed */
     border-radius: 12px;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        /* Adjust shadow color and opacity */
 }
 
 .email-history h2 {
     font-size: 2.5em;
     margin-bottom: 20px;
-    color: var(--primary-color);
+    color: var(--text-color);
 }
 
 table {

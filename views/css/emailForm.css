@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #f59439;
+    --primary-color: #007bff;
     --secondary-color: #28a745;
     --text-color: #333333;
     --background-color: #f4f4f4;
@@ -21,12 +21,17 @@ body {
 .container {
     max-width: 600px;
     width: 100%;
-        margin: 20px auto;
-    background-color: var(--container-background);
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.15);
+        /* Adjust opacity as needed */
+        backdrop-filter: blur(10px);
+        /* Adjust blur radius as needed */
     padding: 40px;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Adjust opacity as needed */
     border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        /* Adjust shadow color and opacity */
 }
 
 h1 {
@@ -83,6 +88,7 @@ button {
     padding: 12px 20px;
     transition: background-color 0.3s;
     border-radius: 5px;
+    border: none;
 }
 
 button:hover {
