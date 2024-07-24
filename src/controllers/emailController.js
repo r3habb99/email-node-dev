@@ -79,22 +79,26 @@ const getEmailHistory = async (req, res) => {
 
     const totalPages = Math.ceil(totalEmails / perPage);
 
-    // Always respond with JSON for consistency
+    // Respond with JSON for consistency
     res.json({
-      emails: emails.map((email) => ({
+      emails: emails.map((email, index) => ({
+        serialNo: (page - 1) * perPage + index + 1,
         to: email.to,
         subject: email.subject,
         sentAt: email.sentAt,
       })),
       currentPage: page,
       totalPages: totalPages,
-      title: 'Dashboard', // Ensure title is passed
+      totalEmails: totalEmails,
+      pageSize: perPage, // Include pageSize for client-side use
+      title: 'Dashboard',
     });
   } catch (error) {
     console.error('Error fetching email history:', error);
     res.status(500).json({ error: 'Error fetching email history.' });
   }
 };
+
 
 module.exports = { sendEmail, getEmailHistory };
 // res.render('dashboard', {

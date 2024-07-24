@@ -1,9 +1,10 @@
 // Utility function to build the table content
-const buildTableContent = (emails) => {
+const buildTableContent = (emails, currentPage, pageSize) => {
   let tableContent = `
     <table>
       <thead>
         <tr>
+          <th>#</th>
           <th>Recipient</th>
           <th>Subject</th>
           <th>Sent At</th>
@@ -12,9 +13,11 @@ const buildTableContent = (emails) => {
       <tbody>
   `;
 
-  emails.forEach((email) => {
+  emails.forEach((email, index) => {
+    const serialNo = (currentPage - 1) * pageSize + index + 1;
     tableContent += `
       <tr>
+        <td>${serialNo}</td>
         <td>${email.to}</td>
         <td>${email.subject}</td>
         <td>${new Date(email.sentAt).toLocaleString()}</td>
@@ -27,8 +30,10 @@ const buildTableContent = (emails) => {
 };
 
 // Utility function to build the pagination content
-const buildPagination = (currentPage, totalPages) => {
+const buildPagination = (currentPage, totalPages, totalCount) => {
   let paginationContent = '<div class="pagination">';
+
+  paginationContent += `<span class="total-count">Total: ${totalCount}</span>`;
 
   if (currentPage > 1) {
     paginationContent += `<a href="#" data-page="${
@@ -42,7 +47,7 @@ const buildPagination = (currentPage, totalPages) => {
     }">${i}</a>`;
   }
 
-  if (totalPages > currentPage) {
+  if (currentPage < totalPages) {
     paginationContent += `<a href="#" data-page="${
       currentPage + 1
     }" class="page-link">Next</a>`;
@@ -62,18 +67,20 @@ const fetchEmailHistory = (page = 1) => {
       return response.json();
     })
     .then((data) => {
-      const emailHistorySection = document.getElementById(
-        'email-history-section'
-      );
       const emailHistoryContent = document.getElementById(
         'email-history-content'
       );
 
       if (data && Array.isArray(data.emails)) {
-        const tableContent = buildTableContent(data.emails);
+        const tableContent = buildTableContent(
+          data.emails,
+          data.currentPage,
+          data.pageSize
+        );
         const paginationContent = buildPagination(
           data.currentPage,
-          data.totalPages
+          data.totalPages,
+          data.totalEmails
         );
 
         emailHistoryContent.innerHTML = tableContent + paginationContent;
@@ -116,3 +123,4 @@ document.addEventListener('click', (event) => {
     fetchEmailHistory(page);
   }
 });
+

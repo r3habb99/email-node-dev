@@ -109,6 +109,7 @@ h1 {
     transition: background-color 0.3s, transform 0.3s;
     text-align: center;
     min-width: 150px;
+    border: none
 }
 
 .button i {
@@ -156,11 +157,17 @@ table tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-.pagination {
+.pagination-container {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    align-items: center;
     margin-top: 20px;
+}
+.pagination {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+        align-items: center;
 }
 
 .page-link {
@@ -181,6 +188,11 @@ table tbody tr:nth-child(even) {
     pointer-events: none;
 }
 
+.total-count {
+    margin-right: 10px;
+    font-size: 1em;
+    color: var(--text-color);
+}
 .close-button {
     background-color: var(--close-button-color);
     color: #fff;
