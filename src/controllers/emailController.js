@@ -4,6 +4,7 @@ const {
   logAndRenderError,
 } = require('../utils/response.utils');
 const { sendMail } = require('../utils/index');
+const logger = require('../utils/logger.utils');
 
 /**
  * Controller function to handle sending emails.
@@ -53,7 +54,7 @@ const sendEmail = async (req, res) => {
     // Log success and render success message
     return logAndRenderSuccess(res, 'Emails sent successfully!');
   } catch (error) {
-    console.error('Error sending email:', error); // Detailed error logging for debugging
+    logger.error('Error sending email:', error); // Detailed error logging for debugging
     return logAndRenderError(
       res,
       'Failed to send emails. Please check the logs for more details.'
@@ -79,8 +80,11 @@ const getEmailHistory = async (req, res) => {
 
     const totalPages = Math.ceil(totalEmails / perPage);
 
-    // Respond with JSON for consistency
-    res.json({
+    // Log successful retrieval of email history
+    logger.info('Email history fetched successfully');
+
+    // Respond with JSON for consistency using custom success response handler
+    return res.json({
       emails: emails.map((email, index) => ({
         serialNo: (page - 1) * perPage + index + 1,
         to: email.to,
@@ -94,17 +98,11 @@ const getEmailHistory = async (req, res) => {
       title: 'Dashboard',
     });
   } catch (error) {
-    console.error('Error fetching email history:', error);
-    res.status(500).json({ error: 'Error fetching email history.' });
+    // Log error fetching email history
+    logger.error('Error fetching email history:', error);
+    // Respond with error using custom error response handler
+    return logAndRenderError(res, 'Error fetching email history.');
   }
 };
 
-
 module.exports = { sendEmail, getEmailHistory };
-// res.render('dashboard', {
-//   emails: emails || [], // Ensure emails is an array
-//   currentPage: page,
-//   totalPages,
-//   totalEmails,
-//   title: 'Dashboard', // Ensure title is passed
-// });

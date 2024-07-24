@@ -9,6 +9,7 @@ const {
   sendClosePageScript,
 } = require('../utils/index');
 const logger = require('../utils/logger.utils');
+const { logAndRenderError } = require('../utils/response.utils');
 
 // Generates a new link with a unique short URL and sets its expiration date
 exports.generateLink = async (req, res) => {
@@ -37,7 +38,7 @@ exports.generateLink = async (req, res) => {
     res.send(`${originalUrl}`);
   } catch (error) {
     logger.error('Error generating link:', error);
-    res.status(500).send('Error generating link.');
+    return logAndRenderError(res, 'Error generating link.');
   }
 };
 // Processes a click on the link, collecting device data and updating the link
@@ -50,7 +51,7 @@ exports.processLink = async (req, res) => {
     let link = await getLink(shortUrl);
     if (!link) {
       logger.warn(`Link not found or is inactive: ${shortUrl}`);
-      return res.status(404).send('Link not found or is inactive.');
+      return logAndRenderError(res, 'Link not found or is inactive.', 404);
     }
     // Add email to the link if provided
     if (email) {
@@ -66,7 +67,7 @@ exports.processLink = async (req, res) => {
     logger.info(`Processed link: ${shortUrl}, data saved to: ${fileName}`);
   } catch (error) {
     logger.error('Error processing link:', error);
-    res.status(500).send('Error processing link.');
+    return logAndRenderError(res, 'Error processing link.');
   }
 };
 // Fetches a link from the database using the short URL
