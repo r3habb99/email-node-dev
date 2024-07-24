@@ -128,7 +128,7 @@ h1 {
 
 .email-history {
     background-color: rgba(255, 255, 255, 0.15);
-        /* Adjust opacity as needed */
+    /* Adjust opacity as needed */
         backdrop-filter: blur(10px);
         /* Adjust blur radius as needed */
     padding: 20px;
@@ -136,7 +136,7 @@ h1 {
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-        /* Adjust shadow color and opacity */
+    /* Adjust shadow color and opacity */
 }
 
 .email-history h2 {
@@ -149,6 +149,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    overflow-x: auto;
 }
 
 table th,
@@ -173,11 +174,12 @@ table tbody tr:nth-child(even) {
     align-items: center;
     margin-top: 20px;
 }
+
 .pagination {
     display: flex;
     gap: 10px;
     justify-content: center;
-        align-items: center;
+    align-items: center;
 }
 
 .page-link {
@@ -203,52 +205,109 @@ table tbody tr:nth-child(even) {
     font-size: 1em;
     color: var(--text-color);
 }
-.close-button {
-    background-color: var(--close-button-color);
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    min-width: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+@media (max-width: 1200px) {
+    .navbar-menu {
+        gap: 15px;
+    }
+
+                .button {
+                    padding: 12px 20px;
+                    font-size: 0.9em;
+                    min-width: 130px;
+                }
+
+                .logout-button {
+                    padding: 8px 12px;
+                    font-size: 0.9em;
+                }
 }
 
-.close-button i {
-    margin-right: 8px;
-}
-
-.close-button:hover {
-    background-color: #c82333;
-    /* Darker red for hover effect */
-    transform: translateY(-2px);
-    /* Subtle lift effect on hover */
-}
-
-.close-button:focus {
-    outline: none;
-    /* Remove default focus outline */
-    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.5);
-    /* Custom focus ring */
-}
 @media (max-width: 768px) {
+    .navbar-menu {
+            flex-direction: column;
+            gap: 10px;
+        }
 
     .container,
     .email-history {
         padding: 20px;
     }
 
-                .buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-                .pagination {
-                    flex-direction: column;
-                    gap: 5px;
-                }
+                .button {
+                    padding: 10px 15px;
+                    font-size: 0.85em;
+                    min-width: 120px;
+        
+                    .logout-button {
+                        padding: 7px 10px;
+                        font-size: 0.85em;
+                    }
+        
+                    .pagination {
+                        flex-direction: column;
+                        gap: 5px;
+        table th,
+            table td {
+                padding: 8px;
+            }
+        }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar-menu {
+                gap: 5px;
+            }
+        
+            .button {
+                padding: 8px 10px;
+                font-size: 0.75em;
+                min-width: 100px;
+            }
+        
+            .logout-button {
+                padding: 5px 8px;
+                font-size: 0.75em;
+            }
+        
+            h1 {
+                font-size: 2em;
+            }
+        
+            .description {
+                font-size: 1em;
+            }
+        
+            .email-history h2 {
+                font-size: 2em;
+            }
+        
+            table th,
+            table td {
+                padding: 5px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .email-history {
+                overflow-x: auto;
+            }
+        
+            table {
+                display: block;
+                width: 100%;
+            }
+        
+            table thead,
+            table tbody,
+            table th,
+            table td,
+            table tr {
+                display: block;
+            }
+        
+            table th,
+            table td {
+                white-space: nowrap;
+            }
+}
 }
