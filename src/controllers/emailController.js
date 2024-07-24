@@ -79,10 +79,6 @@ const getEmailHistory = async (req, res) => {
       .limit(perPage);
 
     const totalPages = Math.ceil(totalEmails / perPage);
-
-    // Log successful retrieval of email history
-    logger.info('Email history fetched successfully');
-
     // Respond with JSON for consistency using custom success response handler
     return res.json({
       emails: emails.map((email, index) => ({
