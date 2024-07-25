@@ -1,22 +1,32 @@
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-
-// Create JWT token
-const createToken = (id, role) => {
-  return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: '1d' });
-};
+// auth.controller.js
+const { createUser, findUser } = require('../repository/UserRepository');
+const { saveToken, deleteToken } = require('../repository/TokenRepository');
+const createToken = require('../utils/generateToken.utils');
+const { successResponse, failureResponse } = require('../utils/response.utils');
+const logger = require('../utils/logger.utils');
 
 // Signup controller
 exports.signup = async (req, res) => {
   const { username, email, password } = req.body;
+
   try {
-    const user = new User({ username, email, password, role: 'Admin' });
-    await user.save();
+    // Check if user already exists
+    const existingUser = await findUser({ email });
+    if (existingUser) {
+      return failureResponse(res, 'User already exists with this email.');
+    }
+
+    // Create new user
+    await createUser({ username, email, password, role: 'Admin' });
+
     // Redirect to login page after signup
-    res.redirect('/auth/login');
+    return successResponse(res, 'User signed up successfully.');
   } catch (error) {
-    console.log(error);
-    res.status(400).json({ error: 'Error signing up user.' });
+    logger.error('Error signing up user:', error);
+    return failureResponse(
+      res,
+      'Error signing up user. Please try again later.'
+    );
   }
 };
 
@@ -24,23 +34,37 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ error: 'Invalid credentials.' });
+    const user = await findUser({ email });
+    if (!user) return failureResponse(res, 'Invalid credentials.');
 
     const isMatch = await user.comparePassword(password);
-    if (!isMatch)
-      return res.status(400).json({ error: 'Invalid credentials.' });
+    if (!isMatch) return failureResponse(res, 'Invalid credentials.');
 
-    const token = createToken(user._id, user.role);
+    const token = createToken(user._id, user.role, email);
+
+    // Store token in the database
+    await saveToken({ userId: user._id, token });
+
     res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
-    res.redirect('/');
+    res.redirect('/dashboard');
   } catch (error) {
-    res.status(400).json({ error: 'Error logging in user.' });
+    logger.error('Error logging in user:', error);
+    return failureResponse(res, 'Error logging in user.');
   }
 };
 
 // Logout controller
-exports.logout = (req, res) => {
+exports.logout = async (req, res) => {
+  const token = req.cookies.jwt;
+
+  if (token) {
+    try {
+      await deleteToken({ token });
+    } catch (error) {
+      logger.error('Error deleting token:', error);
+    }
+  }
+
   res.cookie('jwt', '', { maxAge: 1 });
   res.redirect('/auth/login');
 };

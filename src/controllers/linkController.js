@@ -10,15 +10,18 @@ const {
 } = require('../utils/index');
 const logger = require('../utils/logger.utils');
 const { logAndRenderError } = require('../utils/response.utils');
+const {
+  LINK_CONSTANTS: { LIMIT, ORIGINAL_URL },
+} = require('../constants/link.constants');
 
 // Generates a new link with a unique short URL and sets its expiration date
 exports.generateLink = async (req, res) => {
   const shortUrl = shortid.generate();
-  const originalUrl = `http://localhost:3000/link/${shortUrl}`;
+  const originalUrl = `${ORIGINAL_URL}/${shortUrl}`;
 
   // Set expiration to 1 hour from now
   // const expirationDuration = 1 * 60 * 1000;
-  const expirationDuration = 1 * 60 * 60 * 1000; // 1 hours in milliseconds
+  const expirationDuration = LIMIT; // 1 hours in milliseconds
   const expirationDate = new Date(Date.now() + expirationDuration);
 
   // Create a new link document with initial values
