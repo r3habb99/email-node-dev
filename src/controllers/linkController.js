@@ -9,7 +9,11 @@ const {
   sendClosePageScript,
 } = require('../utils/index');
 const logger = require('../utils/logger.utils');
-const { logAndRenderError } = require('../utils/response.utils');
+const {
+  logAndRenderError,
+  successResponse,
+  failureResponse,
+} = require('../utils/response.utils');
 const {
   LINK_CONSTANTS: { LIMIT, ORIGINAL_URL },
 } = require('../constants/link.constants');
@@ -39,9 +43,10 @@ exports.generateLink = async (req, res) => {
     await newLink.save();
     logger.info(`Generated link: ${originalUrl}`);
     res.send(`${originalUrl}`);
+    return successResponse(res, 'Link generated successfully');
   } catch (error) {
     logger.error('Error generating link:', error);
-    return logAndRenderError(res, 'Error generating link.');
+    return failureResponse(res, 'Error generating link.');
   }
 };
 // Processes a click on the link, collecting device data and updating the link
@@ -54,7 +59,7 @@ exports.processLink = async (req, res) => {
     let link = await getLink(shortUrl);
     if (!link) {
       logger.warn(`Link not found or is inactive: ${shortUrl}`);
-      return logAndRenderError(res, 'Link not found or is inactive.', 404);
+      return failureResponse(res, 'Link not found or is inactive.', 404);
     }
     // Add email to the link if provided
     if (email) {
@@ -68,9 +73,10 @@ exports.processLink = async (req, res) => {
     const fileName = await saveDeviceDataToFile(deviceData);
     sendClosePageScript(res);
     logger.info(`Processed link: ${shortUrl}, data saved to: ${fileName}`);
+    return successResponse(res, 'Link processed successfully');
   } catch (error) {
     logger.error('Error processing link:', error);
-    return logAndRenderError(res, 'Error processing link.');
+    return failureResponse(res, 'Error processing link');
   }
 };
 // Fetches a link from the database using the short URL

@@ -1,3 +1,4 @@
+// validations/email.validation.js
 const Joi = require('joi');
 
 // Custom Joi method to validate email list
@@ -57,9 +58,4 @@ const emailSchema = Joi.object({
     }),
 });
 
-// Function to validate email data
-const validateEmail = (data) => {
-  return emailSchema.validate(data, { abortEarly: false });
-};
-
-module.exports = validateEmail;
+module.exports = emailSchema;

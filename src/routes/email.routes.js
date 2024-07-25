@@ -1,7 +1,8 @@
 const express = require('express');
 const uploadMiddleware = require('../config/multer.config');
 const emailController = require('../controllers/emailController');
-const validateEmailData = require('../middlewares/validation.middleware');
+const validateInput = require('../middlewares/validation.middleware');
+const emailSchema = require('../validations/email.validation');
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get('/', (req, res) => {
 router.post(
   '/send-email',
   uploadMiddleware,
-  validateEmailData,
+  validateInput(emailSchema),
   emailController.sendEmail
 );
 // Route to get email history

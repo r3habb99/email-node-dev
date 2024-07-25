@@ -35,7 +35,7 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await findUser({ email });
-    if (!user) return failureResponse(res, 'Invalid credentials.');
+    if (!user) return failureResponse(res, 'Invalid credentials.', 404);
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) return failureResponse(res, 'Invalid credentials.');

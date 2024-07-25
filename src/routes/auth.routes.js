@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
+const validateInput = require('../middlewares/validation.middleware');
+const { signupSchema, loginSchema } = require('../validations/auth.validation');
 
 // Render Signup Form
 router.get('/signup', (req, res) => {
@@ -13,10 +15,10 @@ router.get('/login', (req, res) => {
 });
 
 // Handle Signup
-router.post('/signup', authController.signup);
+router.post('/signup', validateInput(signupSchema), authController.signup);
 
 // Handle Login
-router.post('/login', authController.login);
+router.post('/login', validateInput(loginSchema), authController.login);
 
 // Handle Logout
 router.post('/logout', authController.logout);

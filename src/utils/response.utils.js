@@ -1,29 +1,31 @@
+// response.utils.js
+
 const logger = require('./logger.utils');
 
 // Function to log success and render a success message
 const logAndRenderSuccess = (res, successMessage) => {
-  logger.info('Emails sent successfully');
+  logger.info(successMessage);
   res.cookie('successMessage', successMessage, { path: '/dashboard' });
-  // Redirect the user to the homepage
   return res.redirect('/dashboard');
 };
 
 // Function to log error and render an error message
-const logAndRenderError = (res, errorMessage) => {
-  logger.error('Failed to send emails: ' + errorMessage);
-  return res.render('index', { successMessage: null, errorMessage });
+const logAndRenderError = (res, errorMessage, statusCode = 500) => {
+  logger.error(errorMessage);
+  return res
+    .status(statusCode)
+    .render('index', { successMessage: null, errorMessage });
 };
-
 // Function to log and send success response
-const successResponse = (res, message) => {
-  logger.info(message); // Log success message
-  return res.status(200).json({ message });
+const successResponse = (res, message, statusCode = 200) => {
+  logger.info(message);
+  return res.status(statusCode).json({ message });
 };
 
 // Function to log and send error response
-const failureResponse = (res, errorMessage) => {
-  logger.error(errorMessage); // Log error message
-  return res.status(500).json({ error: errorMessage });
+const failureResponse = (res, errorMessage, statusCode = 500) => {
+  logger.error(errorMessage);
+  return res.status(statusCode).json({ error: errorMessage });
 };
 
 module.exports = {
