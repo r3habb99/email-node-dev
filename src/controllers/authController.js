@@ -1,6 +1,6 @@
 // auth.controller.js
-const { createUser, findUser } = require('../repository/UserRepository');
-const { saveToken, deleteToken } = require('../repository/TokenRepository');
+const { createUser, findUser } = require('../repository/user.repository');
+const { saveToken, deleteToken } = require('../repository/token.repository');
 const createToken = require('../utils/generateToken.utils');
 const { successResponse, failureResponse } = require('../utils/response.utils');
 const logger = require('../utils/logger.utils');

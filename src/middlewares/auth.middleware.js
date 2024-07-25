@@ -1,7 +1,7 @@
 // middleware/authMiddleware.js
 
 const jwt = require('jsonwebtoken');
-const { findUserById } = require('../repository/UserRepository');
+const { findUserById } = require('../repository/user.repository');
 const logger = require('../utils/logger.utils');
 
 const authMiddleware = async (req, res, next) => {

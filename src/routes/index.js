@@ -3,7 +3,7 @@ const express = require('express');
 const emailRoutes = require('./email.routes');
 const linkRoutes = require('./link.routes');
 const authRoutes = require('./auth.routes');
-const authMiddleware = require('../middlewares/authMiddleware');
+const authMiddleware = require('../middlewares/auth.middleware');
 
 const router = express.Router();
 
