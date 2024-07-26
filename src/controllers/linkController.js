@@ -39,7 +39,6 @@ exports.generateLink = async (req, res) => {
     await newLink.save();
     logger.info(`Generated link: ${originalUrl}`);
     res.send(`${originalUrl}`);
-    return successResponse(res, 'Link generated successfully');
   } catch (error) {
     logger.error('Error generating link:', error);
     return failureResponse(res, 'Error generating link.');
@@ -69,7 +68,6 @@ exports.processLink = async (req, res) => {
     const fileName = await saveDeviceDataToFile(deviceData);
     sendClosePageScript(res);
     logger.info(`Processed link: ${shortUrl}, data saved to: ${fileName}`);
-    return successResponse(res, 'Link processed successfully');
   } catch (error) {
     logger.error('Error processing link:', error);
     return failureResponse(res, 'Error processing link');
