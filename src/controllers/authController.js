@@ -4,7 +4,9 @@ const { saveToken, deleteToken } = require('../repository/token.repository');
 const createToken = require('../utils/generateToken.utils');
 const { successResponse, failureResponse } = require('../utils/response.utils');
 const logger = require('../utils/logger.utils');
-
+const {
+  LINK_CONSTANTS: { LIMIT },
+} = require('../constants/link.constants');
 // Signup controller
 exports.signup = async (req, res) => {
   const { username, email, password } = req.body;
@@ -45,7 +47,7 @@ exports.login = async (req, res) => {
     // Store token in the database
     await saveToken({ userId: user._id, token });
 
-    res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+    res.cookie('jwt', token, { httpOnly: true, maxAge: LIMIT });
     res.redirect('/dashboard');
   } catch (error) {
     logger.error('Error logging in user:', error);
