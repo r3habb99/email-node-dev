@@ -1,10 +1,10 @@
-const Email = require('../models/Email');
 const {
   logAndRenderSuccess,
   logAndRenderError,
 } = require('../utils/response.utils');
 const { sendMail } = require('../utils/index');
 const logger = require('../utils/logger.utils');
+const { createEmail, getEmails } = require('../repository/email.repository');
 
 /**
  * Controller function to handle sending emails.
@@ -43,7 +43,7 @@ const sendEmail = async (req, res) => {
         );
 
         // Save email details to the database
-        await Email.create({
+        await createEmail({
           to: email.trim(),
           subject,
           message,
@@ -72,11 +72,7 @@ const getEmailHistory = async (req, res) => {
     const perPage = 10;
     const page = parseInt(req.query.page, 10) || 1;
 
-    const totalEmails = await Email.countDocuments();
-    const emails = await Email.find()
-      .sort({ sentAt: -1 })
-      .skip((page - 1) * perPage)
-      .limit(perPage);
+    const { totalEmails, emails } = await getEmails(page, perPage);
 
     const totalPages = Math.ceil(totalEmails / perPage);
     // Respond with JSON for consistency using custom success response handler

@@ -1,4 +1,5 @@
 // repository/UserRepository.js
+const { logger } = require('handlebars');
 const User = require('../models/User');
 
 /**
@@ -7,7 +8,11 @@ const User = require('../models/User');
  * @returns {Promise<User>} - The user document.
  */
 const findUser = async (input) => {
-  return await User.findOne(input);
+  try {
+    return await User.findOne(input);
+  } catch (error) {
+    throw new logger.error('Error while finding user', error);
+  }
 };
 
 /**
@@ -16,7 +21,11 @@ const findUser = async (input) => {
  * @returns {Promise<User>} - The user document.
  */
 const findUserById = async (id) => {
-  return await User.findById(id);
+  try {
+    return await User.findById(id);
+  } catch (error) {
+    throw new logger.error('Error while finding user by id', error);
+  }
 };
 
 /**
@@ -25,8 +34,12 @@ const findUserById = async (id) => {
  * @returns {Promise<User>} - The created user document.
  */
 const createUser = async (inputData) => {
-  const user = new User(inputData);
-  return await user.save();
+    try {
+        const user = new User(inputData);
+        return await user.save();
+    } catch (error) {
+      throw new logger.error('Error while creating user data', error);
+    }
 };
 
 module.exports = {

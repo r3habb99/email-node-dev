@@ -1,5 +1,6 @@
 // repository/TokenRepository.js
 const Token = require('../models/Token');
+const logger = require('../utils/logger.utils');
 
 /**
  * Save a new token.
@@ -7,8 +8,12 @@ const Token = require('../models/Token');
  * @returns {Promise<Token>} - The created token document.
  */
 const saveToken = async (tokenData) => {
-  const token = new Token(tokenData);
-  return await token.save();
+  try {
+    const token = new Token(tokenData);
+    return await token.save();
+  } catch (error) {
+    throw new logger.error('Error while saving token', error);
+  }
 };
 
 /**
@@ -17,7 +22,11 @@ const saveToken = async (tokenData) => {
  * @returns {Promise<Token>} - The deleted token document.
  */
 const deleteToken = async (token) => {
-  return await Token.findOneAndDelete({ token });
+  try {
+    return await Token.findOneAndDelete(token);
+  } catch (error) {
+    throw new logger.error('Error while deleting tokens', error);
+  }
 };
 
 module.exports = {

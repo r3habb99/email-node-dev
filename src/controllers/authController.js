@@ -61,7 +61,7 @@ exports.logout = async (req, res) => {
 
   if (token) {
     try {
-      await deleteToken({ token });
+      await deleteToken(token);
     } catch (error) {
       logger.error('Error deleting token:', error);
     }

@@ -72,7 +72,20 @@ body {
 .auth-container button:hover {
     background-color: rgba(0, 86, 179, 0.7);
     }
+                                                                .link {
+                                                                    font-size: 16px;
+                                                                    color: #333;
+                                                                }
     
+                                                                .link-btn {
+                                                                    text-decoration: none;
+                                                                    color: #007bff;
+                                                                    font-weight: bold;
+                                                                }
+                                
+                                                                .link-btn:hover {
+                                                                    color: #0056b3;
+                                                                }
     @media (max-width: 480px) {
         .auth-container {
             padding: 15px;
