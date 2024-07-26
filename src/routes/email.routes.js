@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
   const successMessage = req.cookies.successMessage || null;
   res.clearCookie('successMessage');
-  res.render('index', { successMessage, errorMessage: null });
+  res.render('emailForm', { successMessage, errorMessage: null });
 });
 
 router.post(

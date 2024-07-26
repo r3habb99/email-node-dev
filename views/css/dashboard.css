@@ -9,29 +9,11 @@
         /* Red color for close button */
 }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
-        margin: 0;
-        padding: 0;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        color: #333;
-    }
-
 .dashboard-container {
     width: 90%;
     max-width: 1200px;
     margin: 20px auto;
 }
-
-.header {
-    background-color: #007bff;
-    padding: 10px 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
 
 .container {
     background-color: rgba(255, 255, 255, 0.15);

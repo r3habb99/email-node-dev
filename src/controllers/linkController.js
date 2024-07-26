@@ -9,11 +9,7 @@ const {
   sendClosePageScript,
 } = require('../utils/index');
 const logger = require('../utils/logger.utils');
-const {
-  logAndRenderError,
-  successResponse,
-  failureResponse,
-} = require('../utils/response.utils');
+const { successResponse, failureResponse } = require('../utils/response.utils');
 const {
   LINK_CONSTANTS: { LIMIT, ORIGINAL_URL },
 } = require('../constants/link.constants');

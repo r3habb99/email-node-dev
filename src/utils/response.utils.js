@@ -5,8 +5,8 @@ const logger = require('./logger.utils');
 // Function to log success and render a success message
 const logAndRenderSuccess = (res, successMessage) => {
   logger.info(successMessage);
-  res.cookie('successMessage', successMessage, { path: '/dashboard' });
-  return res.redirect('/dashboard');
+  res.cookie('successMessage', successMessage, { path: '/' });
+  return res.redirect('/email');
 };
 
 // Function to log error and render an error message
