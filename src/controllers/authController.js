@@ -22,7 +22,8 @@ exports.signup = async (req, res) => {
     await createUser({ username, email, password, role: 'Admin' });
 
     // Redirect to login page after signup
-    return successResponse(res, 'User signed up successfully.');
+    logger.info(`User ${username} has been created`)
+    res.redirect("/auth/login")
   } catch (error) {
     logger.error('Error signing up user:', error);
     return failureResponse(
@@ -48,6 +49,7 @@ exports.login = async (req, res) => {
     await saveToken({ userId: user._id, token });
 
     res.cookie('jwt', token, { httpOnly: true, maxAge: LIMIT });
+    logger.info(`User Authenticated successfully`)
     res.redirect('/dashboard');
   } catch (error) {
     logger.error('Error logging in user:', error);
