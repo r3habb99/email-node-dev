@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const cors = require('cors'); // Import the cors package
 const indexRoutes = require('./src/routes/index');
 const logger = require('./src/utils/logger.utils');
 require('dotenv').config();
@@ -11,6 +12,14 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const PROTOCOL = process.env.PROTOCOL || 'http://localhost';
 const DATABASE_URL = process.env.URL;
+
+// Enable CORS for all routes and origins
+app.use(
+  cors({
+    origin: 'http://localhost:5173', // Allow requests from your React frontend
+    credentials: true, // If you need to send cookies or authentication headers
+  })
+);
 
 app.set('view engine', 'ejs');
 app.use(express.static('views'));
