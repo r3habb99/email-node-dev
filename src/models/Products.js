@@ -43,6 +43,7 @@ const productSchema = new Schema(
       type: [String],
       required: true,
       enum: [
+        'White',
         'Blue',
         'Black',
         'Gray',
@@ -56,6 +57,8 @@ const productSchema = new Schema(
         'Khaki',
         'Red',
         'Green',
+        'Floral Print',
+        'Maroon',
       ], // Define possible colors
     },
     material: {
