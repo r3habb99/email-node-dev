@@ -13,6 +13,7 @@ const PORT = process.env.PORT || 3000;
 const PROTOCOL = process.env.PROTOCOL || 'http://localhost';
 const DATABASE_URL = process.env.URL;
 
+
 // Enable CORS for all routes and origins
 app.use(
   cors({
@@ -23,6 +24,7 @@ app.use(
 
 app.set('view engine', 'ejs');
 app.use(express.static('views'));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
