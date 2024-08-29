@@ -11,6 +11,57 @@ const logger = require('../utils/logger.utils');
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
  */
+// const sendEmail = async (req, res) => {
+//   try {
+//     // Extract data from the request body
+//     const { recipients, subject, message, buttonText, buttonLink } = req.body;
+//     // Process file attachments if any
+//     const attachments = req.files || []; // Get the uploaded files from request
+//     const attachmentList = attachments.map((file) => ({
+//       filename: file.originalname,
+//       path: file.path,
+//     }));
+
+//     // Send emails to all recipients
+//     await Promise.all(
+//       recipients.split(',').map(async (email) => {
+//         const fullLink = `${buttonLink}?email=${encodeURIComponent(
+//           email.trim()
+//         )}`;
+
+//         // Send the email
+//         await sendMail(
+//           email.trim(),
+//           subject,
+//           {
+//             subject,
+//             message: message.replace(/\r\n|\r|\n/g, '<br>'),
+//             buttonLink: fullLink,
+//             buttonText,
+//           },
+//           attachmentList
+//         );
+
+//         // Save email details to the database
+//         await Email.create({
+//           to: email.trim(),
+//           subject,
+//           message,
+//           attachments: attachmentList,
+//         });
+//       })
+//     );
+//     // Log success and render success message
+//     return logAndRenderSuccess(res, 'Emails sent successfully!');
+//   } catch (error) {
+//     logger.error('Error sending email:', error); // Detailed error logging for debugging
+//     return logAndRenderError(
+//       res,
+//       'Failed to send emails. Please check the logs for more details.'
+//     );
+//   }
+// };
+
 const sendEmail = async (req, res) => {
   try {
     // Extract data from the request body
@@ -51,6 +102,7 @@ const sendEmail = async (req, res) => {
         });
       })
     );
+
     // Log success and render success message
     return logAndRenderSuccess(res, 'Emails sent successfully!');
   } catch (error) {
